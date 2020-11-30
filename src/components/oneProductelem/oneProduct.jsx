@@ -30,22 +30,15 @@ function OneProduct(props) {
 
     const category = getCategoryTitle (categoryId, categoryList);
 
-    function getReview (id, reviewList) {
-        let res = "";
-        /*reviewList.forEach (
-            (item)=>{
-                if (item.cid == id){
-                    res = `${item.user}: ${item.title}`
-                }
-            }
-        );*/
-        if (res.length < 1) {
-            res = "Пока нет отзыва";
-        }
-        return res;
-    }
+    let review = "Пока нет отзыва";
 
-    const review = getReview (id, reviewList);
+    for (let i=0; i < reviewList.length; i++){
+        if (reviewList[i]){
+            if (reviewList[i].cid == id){
+                review = `${reviewList[i].user}: ${reviewList[i].title}`
+            }
+        }
+    }
     
     function handleAmount(e){
         if (e.target.parentElement.getAttribute('data') == "plus") {
@@ -64,8 +57,6 @@ function OneProduct(props) {
         dispatch(addCartQty(cartItemQty.push(value)))
         dispatch(updateCartTotal((+total) + (+price)*(+value)))
     }
-
-    //const finalReview = review[0] ? `${review[0]}:&nbsp;${review[1]}`: "Пока нет отзыва";
     
     return (
         <div className="single-product-area section-padding-100 clearfix">
@@ -111,7 +102,7 @@ function OneProduct(props) {
                                 <p className="avaibility"><i className="fa fa-circle"></i> In Stock {available}</p>
                             </div>
                             <div className="short_overview my-5">
-                                <p>review</p>
+                                <p>{review}</p>
                             </div>
                             <form className="cart clearfix">
                                 <div className="cart-btn d-flex mb-50">
